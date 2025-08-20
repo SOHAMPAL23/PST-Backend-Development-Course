@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 
 const connectToDB = async () => {
     try{
-        await mongoose.connect("mongodb://localhost:27017/sem3DB");
+        await mongoose.connect("mongodb+srv://sohamlog1:%3CulZzsajOYffayoVc%3E@cluster0.r3htc04.mongodb.net/user");
         console.log("Connected to DB");
 
         // Basic CRUD : not part of Project
