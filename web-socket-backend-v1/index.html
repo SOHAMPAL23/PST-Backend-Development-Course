@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+    <title>WebSocket Chat</title>
+</head>
+<body>
+    <h1>Simple Chat Application Using web socket</h1>
+    <div>
+        <input type="text" id="messageInput" placeholder="Type your message here...">
+        <button id="sendButton">Send</button>
+    </div>
+    <div id="messages">
+        <ul id="messageList">
+        <!-- Messages will be displayed here -->
+        </ul>
+    </div>
+    <script>
+        const socket = io('http://localhost:5000');
+        const msgInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const messageList = document.getElementById('messageList');
+
+
+        //Sending a message 
+        sendButton.addEventListener ('click', () => {
+            const message = msgInput.value;
+            if (message.trim() !== "") {
+                socket.emit("chat:send", message);
+                msgInput.value = "";
+            }
+        });
+
+
+        // new chat 
+        // client message 
+        socket.on("chat:new",(data)=>{
+            const{text,id}=data;
+            const li = document.createElement("li");
+            li.textContent = `User ${id} -  ${text}`;
+            messageList.appendChild(li);
+        })
+    </script>
+</body>
+</html>
